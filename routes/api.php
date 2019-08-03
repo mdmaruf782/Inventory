@@ -30,5 +30,12 @@ Route::apiResource('/category', 'API\CategoryController');
 
 Route::apiResource('/product', 'API\ProductController');
 
+//expense route
+Route::apiResource('/expense', 'API\ExpenseController');
+
+//salary Route
+Route::apiResource('/salary', 'API\SalaryController');
+
+
 
 

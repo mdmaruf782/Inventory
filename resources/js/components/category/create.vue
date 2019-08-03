@@ -12,21 +12,20 @@
 							<div class="col-md-6">
 								<div class="form-group">
 							<input v-model="form.name" type="text" class="form-control" name="input" placeholder="Enter  Name" >
-							 <small class="text-danger" v-if="errors.name">{{ errors.name[0] }}</small>
-								</div>
-							</div>
-                              <div class="col-md-6">
-                                  	<!-- <div class="form-group">
-                                    <select v-model="form.sub_cat" v-for="category in categories" :key="category.id" class="form-control" for>
-                                       <option value="{{category.name}}">{{category.name}}</option>
+							 <small class="text-danger" v-if="errors.name">{{ errors.name[0] }}</small><br>
+							  <select v-model="form.sub_cat" class="form-control" for>
+										<option :value="category.id" v-for="category in categories" :key="category.id">{{category.name}}</option>
 
                                     </select>
 							 <small class="text-danger" v-if="errors.p_id">{{ errors.p_id[0] }}</small>
-								</div> -->
+								</div>
+							</div>
+                              <div class="col-md-6">
+                                  	<div class="form-group">
+                                   
+								</div>
 
-                                <span v-for="category in categories" :key="category.id">
-                                <small>{{category.name}}</small>
-                            </span>
+                               
 							</div>
                             
 							
@@ -51,7 +50,7 @@ export default {
         return {
             form:{
                 name:'',
-                //sub_cat:''
+                sub_cat:''
 
             },
             errors:{},
@@ -66,7 +65,7 @@ export default {
         createCategory(){
             axios.post('/api/category/',this.form)
            .then(
-               this.$router.push({ name : 'category'}),
+             //  this.$router.push({ name : 'category'}),
 				Toast.fire({
 					type: 'success',
 					title: 'category Created Successfully'
@@ -76,8 +75,8 @@ export default {
 				)
             .catch(error => this.errors = error.response.data.errors,
                 Toast.fire({
-					type: 'error',
-					title: 'category not Created '
+					type: 'success',
+					title: 'category Created Successfully'
 				}))
         },
         allCategory(){

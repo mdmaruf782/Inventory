@@ -121,7 +121,30 @@
                                 
                             </ul>
                         </li>
-                        
+                        <li class="slide">
+                            <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-underline"></i><span class="side-menu__label">Expenses</span><i class="angle fa fa-angle-right"></i></a>
+                            <ul class="slide-menu">
+                                <li>
+                                   
+                                    <router-link to="/Create-Expense" class="slide-item">Create Expense</router-link>
+                                    <router-link to="/Expenses" class="slide-item">All Expenses</router-link>
+
+                                </li>
+                                
+                            </ul>
+                        </li>
+                         <li class="slide">
+                            <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-underline"></i><span class="side-menu__label">Salary</span><i class="angle fa fa-angle-right"></i></a>
+                            <ul class="slide-menu">
+                                <li>
+                                   
+                                    <router-link to="/pay-salary" class="slide-item">Pay Salary</router-link>
+                                    <router-link to="/Expenses" class="slide-item">Salary Report</router-link>
+
+                                </li>
+                                
+                            </ul>
+                        </li>
                         
                         <li>
                             <router-link  class="side-menu__item" to="/logout"><i class="side-menu__icon fa fa-question-circle"></i><span class="side-menu__label">Logout</span></router-link>

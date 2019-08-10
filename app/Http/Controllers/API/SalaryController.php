@@ -15,19 +15,12 @@ class SalaryController extends Controller
      */
     public function index()
     {
-        //
+       $data=DB::table('salaries')->select('salary_month')->groupBy('salary_month')->get();
+       return response()->json($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
+   
     /**
      * Store a newly created resource in storage.
      *
@@ -69,7 +62,12 @@ class SalaryController extends Controller
      */
     public function show($id)
     {
-        //
+        $data=DB::table('salaries')
+        ->join('employees','employees.id','salaries.employee_id')
+        ->select('employees.*','salaries.amount','salaries.salary_month','salaries.id as salaries_id')
+        ->where('salaries.id',$id)
+        ->first();
+        return response()->json($data);
     }
 
     /**
@@ -92,7 +90,16 @@ class SalaryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'amount' => 'required',
+            'salary_month' => 'required',
+
+        ]);
+        $data['amount'] = $request->amount;
+
+        $data['salary_month'] = $request->salary_month;
+
+       $update=DB::table('salaries')->where('id',$id)->update($data);
     }
 
     /**
@@ -104,5 +111,12 @@ class SalaryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function salary_based_month($id)
+    {
+        $data=DB::table('salaries')->join('employees','employees.id','salaries.employee_id')->select('salaries.*','employees.name as employee_name','employees.email as employee_email','employees.photo as photo','employees.salary as salary')->where('salaries.salary_month',$id)->get();
+        return response()->json($data);
     }
 }

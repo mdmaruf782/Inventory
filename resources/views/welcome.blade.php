@@ -73,6 +73,21 @@
 
                             </ul>
                         </li>
+                        <li>
+                            <router-link  class="side-menu__item" to="/pos"><i class="side-menu__icon fa fa-question-circle"></i><span class="side-menu__label">POS</span></router-link>
+                        </li>
+                        <li class="slide">
+                            <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-underline"></i><span class="side-menu__label">Customer</span><i class="angle fa fa-angle-right"></i></a>
+                            <ul class="slide-menu">
+                                <li>
+                                   
+                                    <router-link to="/create-customer" class="slide-item">Create Customer</router-link>
+                                    <router-link to="/all-customer" class="slide-item">All Customer</router-link>
+
+                                </li>
+                                
+                            </ul>
+                        </li>
                         <li class="slide">
                             <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-underline"></i><span class="side-menu__label">Employee</span><i class="angle fa fa-angle-right"></i></a>
                             <ul class="slide-menu">
@@ -116,10 +131,14 @@
                                    
                                     <router-link to="/Create-Product" class="slide-item">Create Product</router-link>
                                     <router-link to="/Products" class="slide-item">All Products</router-link>
+                                   
 
                                 </li>
                                 
                             </ul>
+                        </li>
+                         <li>
+                            <router-link  class="side-menu__item" to="/Stocks"><i class="side-menu__icon fa fa-question-circle"></i><span class="side-menu__label">Stocks</span></router-link>
                         </li>
                         <li class="slide">
                             <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-underline"></i><span class="side-menu__label">Expenses</span><i class="angle fa fa-angle-right"></i></a>
@@ -139,7 +158,7 @@
                                 <li>
                                    
                                     <router-link to="/pay-salary" class="slide-item">Pay Salary</router-link>
-                                    <router-link to="/Expenses" class="slide-item">Salary Report</router-link>
+                                    <router-link to="/salary" class="slide-item">Salary Report</router-link>
 
                                 </li>
                                 

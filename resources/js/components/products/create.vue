@@ -82,7 +82,7 @@
 
 							</div>
 							<div class="col-md-12">
-								<input   type="file" class="form-control"  @change="onFileselected">
+								<input accept="image/*"  type="file" class="form-control"  @change="onFileselected">
 								<img :src="form.image" alt="" style="height:50px">
 								<small class="text-danger" v-if="errors.image">{{ errors.image[0] }}</small>
 							</div>

@@ -15,6 +15,10 @@ Route::group([
 
 });
 
+//customer route
+Route::apiResource('/customer', 'API\CustomerController');
+
+
 //employee route
 Route::apiResource('/create-employee', 'API\EmployeesController');
 Route::apiResource('/employees', 'API\EmployeesController');
@@ -35,6 +39,8 @@ Route::apiResource('/expense', 'API\ExpenseController');
 
 //salary Route
 Route::apiResource('/salary', 'API\SalaryController');
+Route::get('/salary-based-month/{id}', 'API\SalaryController@salary_based_month');
+
 
 
 

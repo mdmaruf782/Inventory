@@ -3640,6 +3640,122 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = (_created$data$compute = {
   created: function created() {
     if (!User.loggedIn()) {
@@ -3650,8 +3766,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      Customers: [],
+      Categories: [],
       products: [],
-      searchTerm: ''
+      Catproducts: [],
+      searchTerm: '',
+      filterCatProduct: ''
     };
   },
   computed: {
@@ -3659,52 +3779,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       return this.products.filter(function (product) {
-        return product.product_code.match(_this.searchTerm);
+        return product.product_name.match(_this.searchTerm);
+      });
+    },
+    getCategoryFilterProduct: function getCategoryFilterProduct() {
+      var _this2 = this;
+
+      return this.Catproducts.filter(function (product) {
+        return product.product_name.match(_this2.filterCatProduct);
       });
     }
   }
 }, _defineProperty(_created$data$compute, "created", function created() {
   this.AllProducts();
+  this.allCustomer();
+  this.allCategory();
 }), _defineProperty(_created$data$compute, "methods", {
-  AllProducts: function AllProducts() {
-    var _this2 = this;
-
-    axios.get('/api/product/').then(function (_ref) {
-      var data = _ref.data;
-      return _this2.products = data;
-    })["catch"]();
-  },
-  DeleteProduct: function DeleteProduct(id) {
+  SetCaregoryId: function SetCaregoryId(id) {
     var _this3 = this;
 
-    console.log(id);
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then(function (result) {
-      if (result.value) {
-        axios["delete"]('/api/product/' + id).then(function () {
-          _this3.products = _this3.products.filter(function (product) {
-            return product.id != id;
-          });
-        })["catch"](function () {
-          Toast.fire({
-            type: 'error',
-            title: 'Product Not Deleted'
-          });
+    axios.get('/api/get-product-by-cat-id/' + id).then(function (_ref) {
+      var data = _ref.data;
+      return _this3.Catproducts = data;
+    })["catch"]();
+  },
+  AllProducts: function AllProducts() {
+    var _this4 = this;
 
-          _this3.$route.push({
-            name: 'employees'
-          });
-        });
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-      }
-    });
+    axios.get('/api/product/').then(function (_ref2) {
+      var data = _ref2.data;
+      return _this4.products = data;
+    })["catch"]();
+  },
+  allCustomer: function allCustomer() {
+    var _this5 = this;
+
+    axios.get('/api/customer/').then(function (_ref3) {
+      var data = _ref3.data;
+      return _this5.Customers = data;
+    })["catch"]();
+  },
+  //get all category
+  allCategory: function allCategory() {
+    var _this6 = this;
+
+    axios.get('/api/category/').then(function (_ref4) {
+      var data = _ref4.data;
+      return _this6.Categories = data;
+    })["catch"]();
   }
 }), _created$data$compute);
 
@@ -50083,16 +50205,119 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "col-5" }, [
+        _c("div", { staticClass: "card shadow" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body text-center" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c("form", { staticClass: "text-left", attrs: { action: "" } }, [
+              _c("label", { attrs: { for: "" } }, [_vm._v("Customer Name")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                { staticClass: "form-control" },
+                _vm._l(_vm.Customers, function(customer) {
+                  return _c(
+                    "option",
+                    { key: customer.id, domProps: { value: customer.id } },
+                    [_vm._v(_vm._s(customer.name))]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "" } }, [_vm._v("Pay")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "text" }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "" } }, [_vm._v("Due")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "text" }
+              }),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "" } }, [_vm._v("Payment Method")]),
+              _vm._v(" "),
+              _vm._m(4),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-success", attrs: { type: "submit" } },
+                [_vm._v("Submit")]
+              )
+            ])
+          ])
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-8" }, [
+      _c("div", { staticClass: "col-7" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-12" }, [
             _c("div", { staticClass: "card shadow" }, [
-              _vm._m(1),
+              _vm._m(5),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _vm._m(2),
+                _c("div", { staticClass: "nav-wrapper" }, [
+                  _c(
+                    "ul",
+                    {
+                      staticClass:
+                        "nav nav-pills nav-fill flex-column flex-md-row",
+                      attrs: { id: "tabs-icons-text", role: "tablist" }
+                    },
+                    [
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _vm._l(_vm.Categories, function(category) {
+                        return _c(
+                          "li",
+                          {
+                            key: category.id,
+                            staticClass: "nav-item col-3",
+                            staticStyle: { "margin-top": "5px" }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "nav-link",
+                                attrs: {
+                                  id: "tabs-icons-text-2-tab",
+                                  "data-toggle": "tab",
+                                  href: "#tabs-icons-text-2",
+                                  role: "tab",
+                                  "aria-controls": "tabs-icons-text-2",
+                                  "aria-selected": "false"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.SetCaregoryId(category.id)
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(category.name))]
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card shadow mb-0" }, [
                   _c("div", { staticClass: "card-body " }, [
@@ -50115,10 +50340,27 @@ var render = function() {
                           },
                           [
                             _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.searchTerm,
+                                  expression: "searchTerm"
+                                }
+                              ],
                               staticClass: "form-control col-12",
                               attrs: {
                                 type: "text",
                                 placeholder: "Search here....."
+                              },
+                              domProps: { value: _vm.searchTerm },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.searchTerm = $event.target.value
+                                }
                               }
                             }),
                             _vm._v(" "),
@@ -50164,7 +50406,12 @@ var render = function() {
                                                       _vm._v(
                                                         _vm._s(
                                                           product.product_name
-                                                        )
+                                                        ) +
+                                                          " (" +
+                                                          _vm._s(
+                                                            product.quantity
+                                                          ) +
+                                                          ")"
                                                       )
                                                     ]
                                                   )
@@ -50189,7 +50436,85 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _vm._m(3, true)
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "card-footer text-center"
+                                            },
+                                            [
+                                              product.quantity == 0
+                                                ? _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn bg-gradient-red btn-sm ",
+                                                      attrs: {
+                                                        "data-container":
+                                                          "body",
+                                                        "data-toggle":
+                                                          "popover",
+                                                        "data-placement": "top",
+                                                        "data-content":
+                                                          "Stocks not available"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fe fe-slash text-white"
+                                                      })
+                                                    ]
+                                                  )
+                                                : product.quantity < 10
+                                                ? _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn bg-gradient-warning btn-sm ",
+                                                      attrs: {
+                                                        "data-container":
+                                                          "body",
+                                                        "data-toggle":
+                                                          "popover",
+                                                        "data-placement": "top",
+                                                        "data-content":
+                                                          "Stocks  Low"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fe fe-trending-down text-white"
+                                                      })
+                                                    ]
+                                                  )
+                                                : _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn bg-gradient-success btn-sm ",
+                                                      attrs: {
+                                                        "data-container":
+                                                          "body",
+                                                        "data-toggle":
+                                                          "popover",
+                                                        "data-placement": "top",
+                                                        "data-content":
+                                                          "Stocks available"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("i", {
+                                                        staticClass:
+                                                          "fe fe-check-circle text-white"
+                                                      })
+                                                    ]
+                                                  ),
+                                              _vm._v(" "),
+                                              _vm._m(7, true)
+                                            ]
+                                          )
                                         ]
                                       )
                                     ]
@@ -50201,10 +50526,221 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _vm._m(4),
-                        _vm._v(" "),
-                        _vm._m(5)
-                      ]
+                        _vm._l(_vm.Categories, function(category) {
+                          return _c(
+                            "div",
+                            {
+                              key: category.id,
+                              staticClass: "tab-pane fade",
+                              attrs: {
+                                id: "tabs-icons-text-2",
+                                role: "tabpanel",
+                                "aria-labelledby": "tabs-icons-text-2-tab"
+                              }
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "row" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.filterCatProduct,
+                                        expression: "filterCatProduct"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Search here....."
+                                    },
+                                    domProps: { value: _vm.filterCatProduct },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.filterCatProduct =
+                                          $event.target.value
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.getCategoryFilterProduct, function(
+                                    product
+                                  ) {
+                                    return _c("div", { key: product.id }, [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass: "col-12",
+                                          staticStyle: { "margin-top": "10px" }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            { staticClass: "card shadow" },
+                                            [
+                                              _c("img", {
+                                                staticStyle: {
+                                                  height: "150px"
+                                                },
+                                                attrs: {
+                                                  src: "/" + product.image
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "card-body text-center text-justify",
+                                                  staticStyle: {
+                                                    "max-height": "90px"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "a",
+                                                    { attrs: { href: "#" } },
+                                                    [
+                                                      _c(
+                                                        "h2",
+                                                        { staticClass: "mb-0" },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              product.product_name
+                                                            ) +
+                                                              " (" +
+                                                              _vm._s(
+                                                                product.quantity
+                                                              ) +
+                                                              ")"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "price h2 mb-0"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
+                                                          _vm._s(
+                                                            product.saleing_price
+                                                          ) +
+                                                          "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "card-footer text-center"
+                                                },
+                                                [
+                                                  product.quantity == 0
+                                                    ? _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn bg-gradient-red btn-sm ",
+                                                          attrs: {
+                                                            "data-container":
+                                                              "body",
+                                                            "data-toggle":
+                                                              "popover",
+                                                            "data-placement":
+                                                              "top",
+                                                            "data-content":
+                                                              "Stocks not available"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fe fe-slash text-white"
+                                                          })
+                                                        ]
+                                                      )
+                                                    : product.quantity < 10
+                                                    ? _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn bg-gradient-warning btn-sm ",
+                                                          attrs: {
+                                                            "data-container":
+                                                              "body",
+                                                            "data-toggle":
+                                                              "popover",
+                                                            "data-placement":
+                                                              "top",
+                                                            "data-content":
+                                                              "Stocks  Low"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fe fe-trending-down text-white"
+                                                          })
+                                                        ]
+                                                      )
+                                                    : _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "btn bg-gradient-success btn-sm ",
+                                                          attrs: {
+                                                            "data-container":
+                                                              "body",
+                                                            "data-toggle":
+                                                              "popover",
+                                                            "data-placement":
+                                                              "top",
+                                                            "data-content":
+                                                              "Stocks available"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fe fe-check-circle text-white"
+                                                          })
+                                                        ]
+                                                      ),
+                                                  _vm._v(" "),
+                                                  _vm._m(8, true)
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  })
+                                ],
+                                2
+                              )
+                            ]
+                          )
+                        })
+                      ],
+                      2
                     )
                   ])
                 ])
@@ -50221,15 +50757,146 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-4" }, [
-      _c("div", { staticClass: "card shadow" }, [
-        _c("div", { staticClass: "card-header " }, [
-          _c("h2", { staticClass: "mb-0 " }, [_vm._v("Employee card")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body text-center" })
+    return _c("div", { staticClass: "card-header " }, [
+      _c("h2", { staticClass: "mb-0 " }, [
+        _vm._v("New Customer "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success btn-sm",
+            staticStyle: { float: "right" }
+          },
+          [_vm._v("Add New")]
+        )
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "table-responsive " }, [
+      _c("table", { staticClass: "table table-bordered " }, [
+        _c("thead", [
+          _c("tr", [
+            _c("th", [_vm._v("DLT")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("name")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("unit")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Qty")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("total")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("tbody", [
+          _c("tr", [
+            _c("td", [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-danger btn-sm text-white",
+                  attrs: {
+                    "data-toggle": "tooltip",
+                    "data-original-title": "Delete"
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-trash" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v("name")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("211")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("11")]),
+            _vm._v(" "),
+            _c("td", [_vm._v("231132")])
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("form", { staticClass: "text-left  product-cart mt-4 mb-0" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-6" }, [
+          _c("input", {
+            staticClass: "productcart form-control",
+            attrs: { type: "text", placeholder: "Coupon Code" }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6" }, [
+          _c(
+            "a",
+            { staticClass: "btn btn-primary btn-md", attrs: { href: "#" } },
+            [_vm._v("Apply")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "table-responsive " }, [
+      _c("table", { staticClass: "table table-bordered " }, [
+        _c("tr", [
+          _c("th", { staticClass: "text-left" }, [_vm._v("Total Quantity :")]),
+          _vm._v(" "),
+          _c("th", { staticClass: "text-right" }, [_vm._v("11")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { staticClass: "text-left" }, [_vm._v("Total Quantity : ")]),
+          _vm._v(" "),
+          _c("td", { staticClass: "text-right" }, [_vm._v("11 ")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { staticClass: "text-left" }, [_vm._v("Sub Total :")]),
+          _vm._v(" "),
+          _c("td", { staticClass: "text-right" }, [_vm._v("1111")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { staticClass: "text-left" }, [_vm._v("Vat :")]),
+          _vm._v(" "),
+          _c("td", { staticClass: "text-right" }, [_vm._v("5%")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", { staticClass: "text-left" }, [_vm._v("Total :")]),
+          _vm._v(" "),
+          _c("td", { staticClass: "text-right" }, [_vm._v("120000")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "select",
+      { staticClass: "form-control", attrs: { name: "", id: "" } },
+      [
+        _c("option", { attrs: { value: "" } }, [_vm._v("asda")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "" } }, [_vm._v("asda")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "" } }, [_vm._v("asda")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "" } }, [_vm._v("asda")])
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -50243,92 +50910,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "nav-wrapper" }, [
-      _c(
-        "ul",
-        {
-          staticClass: "nav nav-pills nav-fill flex-column flex-md-row",
-          attrs: { id: "tabs-icons-text", role: "tablist" }
-        },
-        [
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link mb-sm-3 mb-md-0 active border",
-                attrs: {
-                  id: "tabs-icons-text-1-tab",
-                  "data-toggle": "tab",
-                  href: "#tabs-icons-text-1",
-                  role: "tab",
-                  "aria-controls": "tabs-icons-text-1",
-                  "aria-selected": "true"
-                }
-              },
-              [_c("i", { staticClass: "fe fe-home mr-2" }), _vm._v("Home")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link mb-sm-3 mb-md-0 border",
-                attrs: {
-                  id: "tabs-icons-text-2-tab",
-                  "data-toggle": "tab",
-                  href: "#tabs-icons-text-2",
-                  role: "tab",
-                  "aria-controls": "tabs-icons-text-2",
-                  "aria-selected": "false"
-                }
-              },
-              [_c("i", { staticClass: "fe fe-user mr-2" }), _vm._v("Profile")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link mb-sm-3 mb-md-0 border",
-                attrs: {
-                  id: "tabs-icons-text-3-tab",
-                  "data-toggle": "tab",
-                  href: "#tabs-icons-text-3",
-                  role: "tab",
-                  "aria-controls": "tabs-icons-text-3",
-                  "aria-selected": "false"
-                }
-              },
-              [
-                _c("i", { staticClass: "fe fe-message-circle mr-2" }),
-                _vm._v("Messages")
-              ]
-            )
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer text-center" }, [
+    return _c("li", { staticClass: "nav-item" }, [
       _c(
         "a",
         {
-          staticClass:
-            "btn btn-icon btn-sm  btn-primary mt-1 mb-1  text-sm text-white",
-          attrs: { href: "cart.html" }
+          staticClass: "nav-link mb-sm-3 mb-md-0 active border",
+          attrs: {
+            id: "tabs-icons-text-1-tab",
+            "data-toggle": "tab",
+            href: "#tabs-icons-text-1",
+            role: "tab",
+            "aria-controls": "tabs-icons-text-1",
+            "aria-selected": "true"
+          }
         },
-        [
-          _c("i", { staticClass: "fe fe-shopping-cart" }),
-          _vm._v(
-            "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAdd to Cart\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-          )
-        ]
+        [_c("i", { staticClass: "fe fe-home mr-2" }), _vm._v("All")]
       )
     ])
   },
@@ -50337,21 +50933,17 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "div",
+      "a",
       {
-        staticClass: "tab-pane fade",
-        attrs: {
-          id: "tabs-icons-text-2",
-          role: "tabpanel",
-          "aria-labelledby": "tabs-icons-text-2-tab"
-        }
+        staticClass:
+          "btn btn-icon btn-sm  btn-primary mt-1 mb-1  text-sm text-white",
+        attrs: { href: "#" }
       },
       [
-        _c("p", { staticClass: "description mb-0" }, [
-          _vm._v(
-            "Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui."
-          )
-        ])
+        _c("i", { staticClass: "fe fe-shopping-cart" }),
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAdd to Cart\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+        )
       ]
     )
   },
@@ -50360,21 +50952,17 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "div",
+      "a",
       {
-        staticClass: "tab-pane fade",
-        attrs: {
-          id: "tabs-icons-text-3",
-          role: "tabpanel",
-          "aria-labelledby": "tabs-icons-text-3-tab"
-        }
+        staticClass:
+          "btn btn-icon btn-sm  btn-primary mt-1 mb-1  text-sm text-white",
+        attrs: { href: "#" }
       },
       [
-        _c("p", { staticClass: "description mb-0" }, [
-          _vm._v(
-            "Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth."
-          )
-        ])
+        _c("i", { staticClass: "fe fe-shopping-cart" }),
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAdd to Cart\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+        )
       ]
     )
   }

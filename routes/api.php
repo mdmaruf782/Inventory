@@ -15,6 +15,10 @@ Route::group([
 
 });
 
+//pos route
+
+Route::get('/get-product-by-cat-id/{id}', 'API\PosController@GetPorductByCatId');
+
 //customer route
 Route::apiResource('/customer', 'API\CustomerController');
 

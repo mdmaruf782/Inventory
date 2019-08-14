@@ -312,6 +312,9 @@
 			this.allCustomer();
 			this.allCategory();
 			this.getID();
+			Reload.$on('afterAdd', ()=>{
+				this.getID();
+			});
 		},
 
 		methods: {
@@ -375,8 +378,9 @@
 
 			setData(id){
 				let ProductId = [sessionStorage.getItem('product_id')]
-				ProductId.push(id)
-				sessionStorage.setItem('product_id', ProductId)
+				ProductId.push(id);
+				sessionStorage.setItem('product_id', ProductId);
+				Reload.$emit('afterAdd');
 				
 				
 			},
@@ -400,7 +404,7 @@
 				});
 			  		sessionStorage.removeItem('product_id')
 			  	 sessionStorage.setItem('product_id',filtr)
-
+			  	 	Reload.$emit('afterAdd');
 				
 
 				}

@@ -3853,13 +3853,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }
 }, _defineProperty(_created$data$compute, "created", function created() {
+  var _this3 = this;
+
   this.AllProducts();
   this.allCustomer();
   this.allCategory();
   this.getID();
+  Reload.$on('afterAdd', function () {
+    _this3.getID();
+  });
 }), _defineProperty(_created$data$compute, "methods", {
   addCustomer: function addCustomer() {
-    var _this3 = this;
+    var _this4 = this;
 
     axios.post('/api/customer/', this.form).then(Toast.fire({
       type: 'success',
@@ -3867,41 +3872,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }) //$('#modalClose').click()
     //$('#customers').refresh
     )["catch"](function (error) {
-      return _this3.errors = error.response.data.errors;
+      return _this4.errors = error.response.data.errors;
     });
   },
   //send category id for get product data by id
   SetCaregoryId: function SetCaregoryId(id) {
-    var _this4 = this;
+    var _this5 = this;
 
     axios.get('/api/get-product-by-cat-id/' + id).then(function (_ref) {
       var data = _ref.data;
-      return _this4.Catproducts = data;
+      return _this5.Catproducts = data;
     })["catch"]();
   },
   AllProducts: function AllProducts() {
-    var _this5 = this;
+    var _this6 = this;
 
     axios.get('/api/product/').then(function (_ref2) {
       var data = _ref2.data;
-      return _this5.products = data;
+      return _this6.products = data;
     })["catch"]();
   },
   allCustomer: function allCustomer() {
-    var _this6 = this;
+    var _this7 = this;
 
     axios.get('/api/customer/').then(function (_ref3) {
       var data = _ref3.data;
-      return _this6.Customers = data;
+      return _this7.Customers = data;
     })["catch"]();
   },
   //get all category
   allCategory: function allCategory() {
-    var _this7 = this;
+    var _this8 = this;
 
     axios.get('/api/category/').then(function (_ref4) {
       var data = _ref4.data;
-      return _this7.Categories = data;
+      return _this8.Categories = data;
     })["catch"]();
   },
   setesson: function setesson() {
@@ -3917,6 +3922,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var ProductId = [sessionStorage.getItem('product_id')];
     ProductId.push(id);
     sessionStorage.setItem('product_id', ProductId);
+    Reload.$emit('afterAdd');
   },
   getID: function getID() {
     var getData = sessionStorage.getItem('product_id');
@@ -3939,6 +3945,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       sessionStorage.removeItem('product_id');
       sessionStorage.setItem('product_id', filtr);
+      Reload.$emit('afterAdd');
     }
   }
 }), _created$data$compute);
@@ -69268,6 +69275,7 @@ var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a.mixin({
 });
 window.Toast = Toast; //end sweetalert toast
 
+window.Reload = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: _routes__WEBPACK_IMPORTED_MODULE_2__["routes"],
   mode: 'history'

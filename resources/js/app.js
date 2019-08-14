@@ -31,8 +31,11 @@ const Toast = Swal.mixin({
   timer: 3000
 });
 
-window.Toast = Toast
+window.Toast = Toast;
 //end sweetalert toast
+
+window.Reload = new Vue();
+
 
 const router = new VueRouter({
   routes,
